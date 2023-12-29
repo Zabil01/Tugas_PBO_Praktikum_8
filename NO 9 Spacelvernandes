@@ -1,0 +1,260 @@
+Alien
+
+package No_9_SpaceInvadersGame.zetcode.sprite;
+
+import javax.swing.ImageIcon;
+
+public class Alien extends Sprite {
+
+    private Bomb bomb;
+
+    public Alien(int x, int y) {
+
+        initAlien(x, y);
+    }
+
+    private void initAlien(int x, int y) {
+
+        this.x = x;
+        this.y = y;
+
+        bomb = new Bomb(x, y);
+
+        var alienImg = "src/images/alien.png";
+        var ii = new ImageIcon(alienImg);
+
+        setImage(ii.getImage());
+    }
+
+    public void act(int direction) {
+
+        this.x += direction;
+    }
+
+    public Bomb getBomb() {
+
+        return bomb;
+    }
+
+    public class Bomb extends Sprite {
+
+        private boolean destroyed;
+
+        public Bomb(int x, int y) {
+
+            initBomb(x, y);
+        }
+
+        private void initBomb(int x, int y) {
+
+            setDestroyed(true);
+
+            this.x = x;
+            this.y = y;
+
+            var bombImg = "src/resource_spaceinvaders/bomb.png";
+            var ii = new ImageIcon(bombImg);
+            setImage(ii.getImage());
+        }
+
+        public void setDestroyed(boolean destroyed) {
+
+            this.destroyed = destroyed;
+        }
+
+        public boolean isDestroyed() {
+
+            return destroyed;
+        }
+    }
+}
+
+
+Player 
+
+package No_9_SpaceInvadersGame.zetcode.sprite;
+
+import No_9_SpaceInvadersGame.zetcode.Commons;
+
+import javax.swing.ImageIcon;
+import java.awt.event.KeyEvent;
+
+public class Player extends Sprite {
+
+    private int width;
+
+    public Player() {
+
+        initPlayer();
+    }
+
+    private void initPlayer() {
+
+        var playerImg = "src/resource_spaceinvaders/player.png";
+        var ii = new ImageIcon(playerImg);
+
+        width = ii.getImage().getWidth(null);
+        setImage(ii.getImage());
+
+        int START_X = 270;
+        setX(START_X);
+
+        int START_Y = 280;
+        setY(START_Y);
+    }
+
+    public void act() {
+
+        x += dx;
+
+        if (x <= 2) {
+
+            x = 2;
+        }
+
+        if (x >= Commons.BOARD_WIDTH - 2 * width) {
+
+            x = Commons.BOARD_WIDTH - 2 * width;
+        }
+    }
+
+    public void keyPressed(KeyEvent e) {
+
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_LEFT) {
+
+            dx = -2;
+        }
+
+        if (key == KeyEvent.VK_RIGHT) {
+
+            dx = 2;
+        }
+    }
+
+    public void keyReleased(KeyEvent e) {
+
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_LEFT) {
+
+            dx = 0;
+        }
+
+        if (key == KeyEvent.VK_RIGHT) {
+
+            dx = 0;
+        }
+    }
+}
+
+
+Shot
+
+package No_9_SpaceInvadersGame.zetcode.sprite;
+
+import javax.swing.ImageIcon;
+
+public class Shot extends Sprite {
+
+    public Shot() {
+    }
+
+    public Shot(int x, int y) {
+
+        initShot(x, y);
+    }
+
+    private void initShot(int x, int y) {
+
+        var shotImg = "src/resource_spaceinvaders/shot.png";
+        var ii = new ImageIcon(shotImg);
+        setImage(ii.getImage());
+
+        int H_SPACE = 6;
+        setX(x + H_SPACE);
+
+        int V_SPACE = 1;
+        setY(y - V_SPACE);
+    }
+}
+
+
+Sprite 
+
+package No_9_SpaceInvadersGame.zetcode.sprite;
+
+import java.awt.Image;
+
+public class Sprite {
+
+    private boolean visible;
+    private Image image;
+    private boolean dying;
+
+    int x;
+    int y;
+    int dx;
+
+    public Sprite() {
+
+        visible = true;
+    }
+
+    public void die() {
+
+        visible = false;
+    }
+
+    public boolean isVisible() {
+
+        return visible;
+    }
+
+    protected void setVisible(boolean visible) {
+
+        this.visible = visible;
+    }
+
+    public void setImage(Image image) {
+
+        this.image = image;
+    }
+
+    public Image getImage() {
+
+        return image;
+    }
+
+    public void setX(int x) {
+
+        this.x = x;
+    }
+
+    public void setY(int y) {
+
+        this.y = y;
+    }
+
+    public int getY() {
+
+        return y;
+    }
+
+    public int getX() {
+
+        return x;
+    }
+
+    public void setDying(boolean dying) {
+
+        this.dying = dying;
+    }
+
+    public boolean isDying() {
+
+        return this.dying;
+    }
+}
+
